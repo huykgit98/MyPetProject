@@ -13,6 +13,7 @@
         <module>doujobs</module>
         <module>rabotaua</module>
         <module>workua</module>
+        <module>slackHandeler</module>
     </modules>
 
     <parent>
