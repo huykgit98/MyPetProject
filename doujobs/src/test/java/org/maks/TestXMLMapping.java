@@ -3,12 +3,31 @@ package org.maks;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.junit.Test;
+import org.maks.domain.RSSItems;
+import org.maks.domain.Vacancy;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 
 public class TestXMLMapping {
+
+    @Test
+    public void tetVacancy() throws IOException {
+        XmlMapper xmlMapper = new XmlMapper();
+        Vacancy value =
+                xmlMapper.readValue(testVacancy, Vacancy.class);
+        System.out.println(value.getDescription());
+    }
+
+    @Test
+    public void testVacancies() throws IOException {
+        XmlMapper xmlMapper = new XmlMapper();
+//        Channel channel = xmlMapper.readValue(RSSVacanciesParser.readFile(), Channel.class);
+        RSSItems rssItems = xmlMapper.readValue(RSSVacanciesParser.readFile(), RSSItems.class);
+        System.out.println(rssItems);
+//        System.out.println(channel);
+//        Arrays.stream(channel.getVacancies()).forEach(System.out::println);
+    }
 
     String testVacancy = "<item>\n" +
             "            <title>Full-stack Web Developer (SPA + .Net) в Boovatech, Киев</title>\n" +
@@ -79,20 +98,5 @@ public class TestXMLMapping {
             "            <pubDate>Sat, 15 Apr 2017 21:49:33 +0300</pubDate>\n" +
             "            <guid>https://jobs.dou.ua/companies/boovatech/vacancies/37204/?1492282173</guid>\n" +
             "        </item>";
-    @Test
-    public void tetVacancy() throws IOException {
-        XmlMapper xmlMapper = new XmlMapper();
-        Vacancy value =
-                xmlMapper.readValue(testVacancy, Vacancy.class);
-        System.out.println(value.getDescription());
-    }
 
-    @Test
-    public void testVacancies() throws IOException {
-        XmlMapper xmlMapper = new XmlMapper();
-        Channel channel = xmlMapper.readValue(RSSVacanciesParser.readFile(), Channel.class);
-        System.out.println(channel);
-        Arrays.stream(channel.getVacancies()).forEach(System.out::println);
-
-    }
 }

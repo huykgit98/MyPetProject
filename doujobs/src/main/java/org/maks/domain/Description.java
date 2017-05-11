@@ -1,4 +1,4 @@
-package org.maks;
+package org.maks.domain;
 
 public class Description {
 }

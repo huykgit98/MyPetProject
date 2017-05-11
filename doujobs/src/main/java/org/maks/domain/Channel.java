@@ -1,11 +1,8 @@
-package org.maks;
+package org.maks.domain;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
-
-import static sun.plugin.javascript.navig.JSType.Link;
 
 @JacksonXmlRootElement(localName = "Channel", namespace = "http://www.w3.org/2005/Atom")
 public class Channel {
@@ -27,7 +24,6 @@ public class Channel {
         this.description = description;
         this.language = language;
         this.lastBuildDate = lastBuildDate;
-
     }
 
     @JacksonXmlProperty(localName = "item")

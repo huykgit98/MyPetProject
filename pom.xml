@@ -14,6 +14,7 @@
         <module>rabotaua</module>
         <module>workua</module>
         <module>slackHandeler</module>
+        <module>notification_manager</module>
     </modules>
 
     <parent>
