@@ -1,25 +1,36 @@
 package org.maks.domain;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@JacksonXmlRootElement(localName = "item")
+import java.util.Date;
+
+@Document
 public class Vacancy {
 
+    @Id
+    private String id;
     private String title;
     private String link;
     private String pubDate;
     private String guid;
     private String description;
+    private Date dateSaved;
 
-    public Vacancy() {
+    public Date getDateSaved() {
+        return dateSaved;
     }
 
-    public Vacancy(String title, String link, String pubDate, String guid, String description) {
-        this.title = title;
-        this.link = link;
-        this.pubDate = pubDate;
-        this.guid = guid;
-        this.description = description;
+    public void setDateSaved(Date dateSaved) {
+        this.dateSaved = dateSaved;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -62,14 +73,36 @@ public class Vacancy {
         this.description = description;
     }
 
+
     @Override
     public String toString() {
         return "Vacancy{" +
-                "title='" + title + '\'' +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
                 ", link='" + link + '\'' +
                 ", pubDate='" + pubDate + '\'' +
                 ", guid='" + guid + '\'' +
                 ", description='" + description + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Vacancy vacancy = (Vacancy) o;
+
+        if (title != null ? !title.equals(vacancy.title) : vacancy.title != null) return false;
+        if (link != null ? !link.equals(vacancy.link) : vacancy.link != null) return false;
+        return description != null ? description.equals(vacancy.description) : vacancy.description == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = title != null ? title.hashCode() : 0;
+        result = 31 * result + (link != null ? link.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        return result;
     }
 }

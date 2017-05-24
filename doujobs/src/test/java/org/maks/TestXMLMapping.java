@@ -3,8 +3,9 @@ package org.maks;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.junit.Test;
-import org.maks.domain.RSSItems;
-import org.maks.domain.Vacancy;
+import org.maks.dto.RSSItems;
+import org.maks.dto.VacancyDto;
+import org.maks.service.RSSVacanciesParser;
 
 import java.io.IOException;
 
@@ -14,8 +15,8 @@ public class TestXMLMapping {
     @Test
     public void tetVacancy() throws IOException {
         XmlMapper xmlMapper = new XmlMapper();
-        Vacancy value =
-                xmlMapper.readValue(testVacancy, Vacancy.class);
+        VacancyDto value =
+                xmlMapper.readValue(testVacancy, VacancyDto.class);
         System.out.println(value.getDescription());
     }
 

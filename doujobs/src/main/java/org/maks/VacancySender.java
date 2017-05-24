@@ -2,8 +2,12 @@ package org.maks;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.maks.domain.RSSItems;
 import org.maks.domain.Vacancy;
+import org.maks.dto.RSSItems;
+import org.maks.dto.VacancyDto;
+import org.maks.repository.VacancyRepository;
+import org.maks.service.RSSVacanciesParser;
+import org.maks.service.VacancyService;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,21 +32,36 @@ public class VacancySender {
     private RSSVacanciesParser vacanciesParser;
 
     @Autowired
+    VacancyRepository vacancyRepository;
+
+    @Autowired
     private DummyQueue dummyQueue;
 
-    @Scheduled(fixedDelay = 10000, initialDelay = 500)
-    public void send() {
-        RSSItems rssItems = vacanciesParser.readRss(dummyQueue.getUrl());
-        List<Vacancy> vacancies = Arrays.asList(rssItems.getChannel().getVacancies());
-        try {
-            for (Vacancy vacancy : vacancies) {
+    @Autowired private VacancyService vacancyService;
 
-                String message = objectMapper.writeValueAsString(vacancy);
+
+    public void send(List<VacancyDto> vacancyDtos) {
+
+        try {
+            for (VacancyDto vacancyDto : vacancyDtos) { //TODO change method to sending array, not each element
+                String message = objectMapper.writeValueAsString(vacancyDto);
                 template.convertAndSend(queue.getName(), message);
             }
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+    }
+    @Scheduled(fixedDelayString = "${dou.jobs.millisecond}" , initialDelay = 500)
+    public void executeParsing(){
+        RSSItems rssItems = vacanciesParser.readRss(dummyQueue.getUrl());
+        List<VacancyDto> vacancies = Arrays.asList(rssItems.getChannel().getVacancies());
+        send(vacancies);
+        saveToDb(vacancyService.dtoToDomain(vacancies));
 
+    }
+
+    public void saveToDb(List<Vacancy> vacancies){
+        List<Vacancy> newVacancies = vacancyService.checkUnique(vacancies);
+        vacancyRepository.save(newVacancies);
     }
 }

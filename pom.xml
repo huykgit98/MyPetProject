@@ -15,6 +15,7 @@
         <module>workua</module>
         <module>slackHandeler</module>
         <module>notification_manager</module>
+        <module>forAttempt</module>
     </modules>
 
     <parent>

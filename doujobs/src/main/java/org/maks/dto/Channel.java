@@ -1,4 +1,4 @@
-package org.maks.domain;
+package org.maks.dto;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -28,7 +28,7 @@ public class Channel {
 
     @JacksonXmlProperty(localName = "item")
     @JacksonXmlElementWrapper(useWrapping = false)
-    private Vacancy[] vacancies ;
+    private VacancyDto[] vacancies ;
 
     public String getTitle() {
         return title;
@@ -70,11 +70,11 @@ public class Channel {
         this.lastBuildDate = lastBuildDate;
     }
 
-    public Vacancy[] getVacancies() {
+    public VacancyDto[] getVacancies() {
         return vacancies;
     }
 
-    public void setVacancies(Vacancy[] vacancies) {
+    public void setVacancies(VacancyDto[] vacancies) {
         this.vacancies = vacancies;
     }
 
