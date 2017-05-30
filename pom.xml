@@ -16,6 +16,7 @@
         <module>slackHandeler</module>
         <module>notification_manager</module>
         <module>forAttempt</module>
+        <module>mailNotiffier</module>
     </modules>
 
     <parent>
